@@ -1,0 +1,16 @@
+targets:
+  $default:
+    builders:
+      injectable_generator:injectable_builder:
+        enabled: true
+        options:
+          auto_register: true
+      
+      json_serializable:
+        options:
+          any_map: true
+          checked: true
+          create_to_json: true
+          disallow_unrecognized_keys: false
+          explicit_to_json: true
+
