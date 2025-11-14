@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import '../../../../const/theme/theme_extensions.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/extensions/build_context_extensions.dart';
 import '../../../../core/utils/haptics.dart';
@@ -18,7 +19,7 @@ class GarmentItemSlot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = context.isDarkMode;
+    final colors = context.appColors;
 
     return Column(
       children: [
@@ -26,12 +27,10 @@ class GarmentItemSlot extends StatelessWidget {
           duration: const Duration(milliseconds: AppConstants.durationNormal),
           height: 160,
           decoration: BoxDecoration(
-            color: isDark ? const Color(0xFF1A1A22) : const Color(0xFFF8F9FA),
+            color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(AppConstants.radiusLg),
             border: Border.all(
-              color: isDark
-                  ? const Color(0xFF2A2A35)
-                  : const Color(0xFFE0E0E0),
+              color: colors.border,
               width: 2,
               strokeAlign: BorderSide.strokeAlignInside,
             ),
@@ -40,13 +39,11 @@ class GarmentItemSlot extends StatelessWidget {
               ? _buildImagePreview(context)
               : _buildAddButton(context),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12),
         Text(
           label,
           style: context.textTheme.bodyMedium?.copyWith(
-            color: isDark
-                ? Colors.white.withOpacity(0.7)
-                : Colors.black.withOpacity(0.7),
+            color: colors.textSecondary,
           ),
         ),
       ],
@@ -66,8 +63,8 @@ class GarmentItemSlot extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: 8,
-          right: 8,
+          top: 12,
+          right: 12,
           child: Material(
             color: Colors.black.withOpacity(0.6),
             borderRadius: BorderRadius.circular(AppConstants.radiusFull),
@@ -78,12 +75,8 @@ class GarmentItemSlot extends StatelessWidget {
               },
               borderRadius: BorderRadius.circular(AppConstants.radiusFull),
               child: Container(
-                padding: const EdgeInsets.all(6),
-                child: const Icon(
-                  Icons.close,
-                  color: Colors.white,
-                  size: 16,
-                ),
+                padding: const EdgeInsets.all(8),
+                child: const Icon(Icons.close, color: Colors.white, size: 16),
               ),
             ),
           ),
@@ -93,7 +86,7 @@ class GarmentItemSlot extends StatelessWidget {
   }
 
   Widget _buildAddButton(BuildContext context) {
-    final isDark = context.isDarkMode;
+    final colors = context.appColors;
 
     return Material(
       color: Colors.transparent,
@@ -111,16 +104,10 @@ class GarmentItemSlot extends StatelessWidget {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: isDark
-                      ? const Color(0xFF2A2A35)
-                      : const Color(0xFFE0E0E0),
+                  color: colors.surfaceVariant,
                   borderRadius: BorderRadius.circular(AppConstants.radiusFull),
                 ),
-                child: Icon(
-                  Icons.add,
-                  color: isDark ? Colors.white : Colors.black,
-                  size: 24,
-                ),
+                child: Icon(Icons.add, color: colors.textPrimary, size: 24),
               ),
             ],
           ),
@@ -129,4 +116,3 @@ class GarmentItemSlot extends StatelessWidget {
     );
   }
 }
-

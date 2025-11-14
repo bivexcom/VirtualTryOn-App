@@ -2,13 +2,13 @@
 class AppConstants {
   AppConstants._();
 
-  // Padding
+  // Padding - Premium Apple-style spacing
   static const double paddingXs = 4.0;
-  static const double paddingSm = 8.0;
-  static const double paddingMd = 16.0;
-  static const double paddingLg = 24.0;
-  static const double paddingXl = 32.0;
-  static const double paddingXxl = 40.0;
+  static const double paddingSm = 12.0; // 8 → 12
+  static const double paddingMd = 24.0; // 16 → 24
+  static const double paddingLg = 32.0; // 24 → 32
+  static const double paddingXl = 40.0; // 32 → 40
+  static const double paddingXxl = 48.0; // 40 → 48
 
   // Border Radius
   static const double radiusXs = 8.0;

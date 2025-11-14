@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import '../../../../const/theme/theme_extensions.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/extensions/build_context_extensions.dart';
 import '../../../../core/utils/haptics.dart';
@@ -20,57 +22,63 @@ class PhotoUploadCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = context.isDarkMode;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      height: 280,
+      height: 240,
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1A1A22) : const Color(0xFFF8F9FA),
-        borderRadius: BorderRadius.circular(AppConstants.radiusXl),
-        border: Border.all(
-          color: isDark
-              ? const Color(0xFF2A2A35)
-              : const Color(0xFFE0E0E0),
-          width: 2,
-          strokeAlign: BorderSide.strokeAlignInside,
-        ),
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          // Premium soft shadow
+          BoxShadow(
+            color: Colors.black.withOpacity(isDark ? 0.15 : 0.05),
+            blurRadius: 30,
+            spreadRadius: 0,
+            offset: const Offset(0, 18),
+          ),
+        ],
       ),
-      child: image != null
-          ? _buildImagePreview(context)
-          : _buildUploadPrompt(context),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: image != null
+            ? _buildImagePreview(context)
+            : _buildUploadPrompt(context),
+      ),
     );
   }
 
   Widget _buildImagePreview(BuildContext context) {
     return Stack(
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(AppConstants.radiusXl - 2),
-          child: Image.file(
-            image!,
-            width: double.infinity,
-            height: double.infinity,
-            fit: BoxFit.cover,
-          ),
+        Image.file(
+          image!,
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.cover,
         ),
         Positioned(
           top: 12,
           right: 12,
-          child: Material(
-            color: Colors.black.withOpacity(0.6),
+          child: ClipRRect(
             borderRadius: BorderRadius.circular(AppConstants.radiusFull),
-            child: InkWell(
-              onTap: () {
-                Haptics.lightImpact();
-                onImageSelected();
-              },
-              borderRadius: BorderRadius.circular(AppConstants.radiusFull),
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                child: const Icon(
-                  Icons.edit,
-                  color: Colors.white,
-                  size: 20,
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+              child: Material(
+                color: Colors.black.withOpacity(0.3),
+                child: InkWell(
+                  onTap: () {
+                    Haptics.lightImpact();
+                    onImageSelected();
+                  },
+                  borderRadius: BorderRadius.circular(AppConstants.radiusFull),
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    child: const Icon(
+                      Icons.edit,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -81,80 +89,100 @@ class PhotoUploadCard extends StatelessWidget {
   }
 
   Widget _buildUploadPrompt(BuildContext context) {
-    final isDark = context.isDarkMode;
+    final colors = context.appColors;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: () {
-          Haptics.lightImpact();
-          onImageSelected();
-        },
-        borderRadius: BorderRadius.circular(AppConstants.radiusXl),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 64,
-                height: 64,
+    return Stack(
+      children: [
+        // Background image with light blur
+        Positioned.fill(
+          child: Image.asset('assets/images/upload_bg.png', fit: BoxFit.cover),
+        ),
+        // Light glassmorphism overlay
+        Positioned.fill(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(24),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+              child: Container(
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFFF45C9F), Color(0xFF8B5CFF)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(AppConstants.radiusMd),
-                ),
-                child: const Icon(
-                  Icons.add_photo_alternate_rounded,
-                  color: Colors.white,
-                  size: 32,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                title,
-                style: context.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Text(
-                  subtitle,
-                  textAlign: TextAlign.center,
-                  style: context.textTheme.bodyMedium?.copyWith(
+                  color: isDark
+                      ? Colors.black.withOpacity(0.3)
+                      : Colors.white.withOpacity(0.15),
+                  border: Border.all(
                     color: isDark
-                        ? Colors.white.withOpacity(0.6)
-                        : Colors.black.withOpacity(0.6),
+                        ? Colors.white.withOpacity(0.1)
+                        : Colors.white.withOpacity(0.3),
+                    width: 1,
                   ),
+                  borderRadius: BorderRadius.circular(24),
                 ),
               ),
-              const SizedBox(height: 20),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 10,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF45C9F).withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(AppConstants.radiusFull),
-                ),
-                child: Text(
-                  context.l10n.try_on_choose_file,
-                  style: context.textTheme.bodyMedium?.copyWith(
-                    color: const Color(0xFFF45C9F),
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
-      ),
+        // Centered upload button
+        Positioned.fill(
+          child: Center(
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {
+                  Haptics.lightImpact();
+                  onImageSelected();
+                },
+                borderRadius: BorderRadius.circular(50),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 12,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isDark
+                        ? Colors.white.withOpacity(0.2)
+                        : Colors.white.withOpacity(0.85),
+                    borderRadius: BorderRadius.circular(50),
+                    border: Border.all(
+                      color: isDark
+                          ? Colors.white.withOpacity(0.3)
+                          : Colors.white.withOpacity(0.6),
+                      width: 1.5,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.08),
+                        blurRadius: 20,
+                        spreadRadius: 0,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.upload,
+                        color: isDark ? Colors.white : colors.textPrimary,
+                        size: 24,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Upload your photo',
+                        style: context.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: isDark ? Colors.white : colors.textPrimary,
+                          letterSpacing: -0.2,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
-

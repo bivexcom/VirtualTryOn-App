@@ -1,54 +1,74 @@
 import 'package:flutter/material.dart';
 
-/// App color palette
+/// App color palette - Neutral Base + Peach Accent
+/// Premium, sophisticated palette with cool-neutral surfaces and warm peach accents
+/// Peach is used ONLY for highlights, not backgrounds
 class AppColors {
   AppColors._();
 
-  // Light Theme Colors
-  static const Color lightBackground = Color(0xFFFFFFFF);
-  static const Color lightSurface = Color(0xFFF8F9FA);
-  static const Color lightSurfaceVariant = Color(0xFFEEF0F2);
-  static const Color lightPrimary = Color(0xFFE91E63); // Pink
-  static const Color lightSecondary = Color(0xFF9C27B0); // Purple
-  static const Color lightTertiary = Color(0xFF2196F3); // Blue
-  static const Color lightOnBackground = Color(0xFF1A1A1A);
-  static const Color lightOnSurface = Color(0xFF2C2C2C);
-  static const Color lightBorder = Color(0xFFE0E0E0);
+  // === LIGHT MODE - Neutral Base ===
+  static const Color background = Color(0xFFF7F6F4); // Cool neutral background
+  static const Color surface = Color(0xFFF0EEEB); // Neutral surface
+  static const Color surfaceVariant = Color(0xFFE6E3E0); // Surface variant
+  static const Color border = Color(0xFFD7D3D0); // Neutral border
+  static const Color textPrimary = Color(0xFF2E2B2B); // Primary text
+  static const Color textSecondary = Color(0xFF6B6565); // Secondary text
+  static const Color iconNeutral = Color(0xFF7A7472); // Neutral icons
+  static const Color shadow = Color(0x0F000000); // rgba(0,0,0,0.06)
 
-  // Dark Theme Colors
-  static const Color darkBackground = Color(0xFF0A0A0F);
-  static const Color darkSurface = Color(0xFF101015);
-  static const Color darkSurfaceVariant = Color(0xFF1A1A20);
-  static const Color darkPrimary = Color(0xFFFF4081); // Bright Pink
-  static const Color darkSecondary = Color(0xFFAB47BC); // Light Purple
-  static const Color darkTertiary = Color(0xFF42A5F5); // Light Blue
-  static const Color darkOnBackground = Color(0xFFE8E8E8);
-  static const Color darkOnSurface = Color(0xFFD0D0D0);
-  static const Color darkBorder = Color(0xFF2A2A30);
+  // === ACCENTS - Peach (Highlights Only) ===
+  static const Color primaryPeach = Color(0xFFE8A98F); // Primary peach accent
+  static const Color primarySoft = Color(0xFFF3D4C6); // Soft peach
+  static const Color primaryDark = Color(0xFFC9896F); // Dark peach
 
-  // Gradient Colors
-  static const List<Color> gradientPinkPurple = [
-    Color(0xFFE91E63),
-    Color(0xFF9C27B0),
+  // === DARK MODE - Cool Neutral ===
+  static const Color darkBackground = Color(0xFF121214); // Deep cool background
+  static const Color darkSurface = Color(0xFF1C1C1F); // Cool surface
+  static const Color darkSurfaceVariant = Color(0xFF252529); // Surface variant
+  static const Color darkBorder = Color(0xFF3A3A40); // Dark border
+  static const Color darkTextPrimary = Color(0xFFF5F4F3); // Light text
+  static const Color darkTextSecondary = Color(0xFFC7C7C9); // Secondary text
+  static const Color darkShadow = Color(0x1A000000); // Dark shadow
+
+  // === Legacy Mappings for Light Theme ===
+  static const Color lightPrimary = primaryPeach;
+  static const Color lightSecondary = primarySoft;
+  static const Color lightBackground = background;
+  static const Color lightSurface = surface;
+  static const Color lightSurfaceVariant = surfaceVariant;
+  static const Color lightOnBackground = textPrimary;
+  static const Color lightOnSurface = textPrimary;
+  static const Color lightBorder = border;
+
+  // === Legacy Mappings for Dark Theme ===
+  static const Color darkPrimary = primaryPeach;
+  static const Color darkSecondary = primarySoft;
+  static const Color darkOnBackground = darkTextPrimary;
+  static const Color darkOnSurface = darkTextPrimary;
+
+  // === Gradient - Peach Accent (for CTAs ONLY) ===
+  static const List<Color> peachGradient = [
+    primaryPeach, // #E8A98F
+    primarySoft, // #F3D4C6
   ];
 
-  static const List<Color> gradientPinkBlue = [
-    Color(0xFFE91E63),
-    Color(0xFF2196F3),
+  static const List<Color> peachGradientReverse = [
+    primarySoft, // #F3D4C6
+    primaryPeach, // #E8A98F
   ];
 
-  static const List<Color> gradientPurpleBlue = [
-    Color(0xFF9C27B0),
-    Color(0xFF2196F3),
+  static const List<Color> subtlePeachGradient = [
+    primarySoft, // #F3D4C6
+    Color(0xFFF8E5DA), // Very soft peach
   ];
 
-  // Semantic Colors
+  // === Semantic Colors ===
   static const Color success = Color(0xFF4CAF50);
   static const Color warning = Color(0xFFFF9800);
   static const Color error = Color(0xFFF44336);
   static const Color info = Color(0xFF2196F3);
 
-  // Neutral Colors
+  // === Neutral Grays ===
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);
   static const Color grey50 = Color(0xFFFAFAFA);

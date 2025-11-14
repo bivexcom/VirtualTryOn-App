@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../const/theme/theme_extensions.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/extensions/build_context_extensions.dart';
 import '../../../../core/utils/haptics.dart';
@@ -49,26 +50,21 @@ class _AdvancedSettingsSectionState extends State<AdvancedSettingsSection>
 
   @override
   Widget build(BuildContext context) {
-    final isDark = context.isDarkMode;
+    final colors = context.appColors;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: AppConstants.durationNormal),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1A1A22) : const Color(0xFFF8F9FA),
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(AppConstants.radiusLg),
-        border: Border.all(
-          color: isDark
-              ? const Color(0xFF2A2A35)
-              : const Color(0xFFE0E0E0),
-          width: 1,
-        ),
+        border: Border.all(color: colors.border, width: 1),
       ),
       child: Column(
         children: [
           InkWell(
             onTap: _toggleExpanded,
             borderRadius: BorderRadius.circular(AppConstants.radiusLg),
-            child:               Padding(
+            child: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: AppConstants.paddingMd,
                 vertical: AppConstants.paddingMd,
@@ -86,7 +82,7 @@ class _AdvancedSettingsSectionState extends State<AdvancedSettingsSection>
                     turns: _rotationAnimation,
                     child: Icon(
                       Icons.keyboard_arrow_down,
-                      color: isDark ? Colors.white : Colors.black,
+                      color: colors.textPrimary,
                     ),
                   ),
                 ],
@@ -107,26 +103,19 @@ class _AdvancedSettingsSectionState extends State<AdvancedSettingsSection>
   }
 
   Widget _buildSettingsContent(BuildContext context) {
-    final isDark = context.isDarkMode;
+    final colors = context.appColors;
 
     return Container(
       padding: const EdgeInsets.all(AppConstants.paddingMd),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Divider(
-            color: isDark
-                ? const Color(0xFF2A2A35)
-                : const Color(0xFFE0E0E0),
-            height: 1,
-          ),
+          Divider(color: colors.border, height: 1),
           const SizedBox(height: AppConstants.paddingMd),
           Text(
             context.l10n.try_on_photography_style,
             style: context.textTheme.bodyMedium?.copyWith(
-              color: isDark
-                  ? Colors.white.withOpacity(0.7)
-                  : Colors.black.withOpacity(0.7),
+              color: colors.textSecondary,
             ),
           ),
           const SizedBox(height: 8),
@@ -135,24 +124,34 @@ class _AdvancedSettingsSectionState extends State<AdvancedSettingsSection>
             runSpacing: 8,
             children: [
               _buildStyleChip(context, context.l10n.try_on_style_studio, true),
-              _buildStyleChip(context, context.l10n.try_on_style_outdoor, false),
+              _buildStyleChip(
+                context,
+                context.l10n.try_on_style_outdoor,
+                false,
+              ),
               _buildStyleChip(context, context.l10n.try_on_style_casual, false),
-              _buildStyleChip(context, context.l10n.try_on_style_professional, false),
+              _buildStyleChip(
+                context,
+                context.l10n.try_on_style_professional,
+                false,
+              ),
             ],
           ),
           const SizedBox(height: AppConstants.paddingMd),
           Text(
             context.l10n.try_on_quality,
             style: context.textTheme.bodyMedium?.copyWith(
-              color: isDark
-                  ? Colors.white.withOpacity(0.7)
-                  : Colors.black.withOpacity(0.7),
+              color: colors.textSecondary,
             ),
           ),
           const SizedBox(height: 8),
           Row(
             children: [
-              _buildQualityChip(context, context.l10n.try_on_quality_standard, false),
+              _buildQualityChip(
+                context,
+                context.l10n.try_on_quality_standard,
+                false,
+              ),
               const SizedBox(width: 8),
               _buildQualityChip(context, context.l10n.try_on_quality_hd, true),
             ],
@@ -163,53 +162,53 @@ class _AdvancedSettingsSectionState extends State<AdvancedSettingsSection>
   }
 
   Widget _buildStyleChip(BuildContext context, String label, bool isSelected) {
-    final isDark = context.isDarkMode;
+    final colors = context.appColors;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         color: isSelected
-            ? const Color(0xFF8B5CFF).withOpacity(0.2)
-            : (isDark ? const Color(0xFF2A2A35) : const Color(0xFFE0E0E0)),
+            ? colors.primaryPeach.withOpacity(0.15)
+            : colors.surfaceVariant,
         borderRadius: BorderRadius.circular(AppConstants.radiusFull),
         border: isSelected
-            ? Border.all(color: const Color(0xFF8B5CFF), width: 1.5)
+            ? Border.all(color: colors.primaryPeach, width: 1.5)
             : null,
       ),
       child: Text(
         label,
         style: context.textTheme.bodySmall?.copyWith(
-          color: isSelected
-              ? const Color(0xFF8B5CFF)
-              : (isDark ? Colors.white : Colors.black),
+          color: isSelected ? colors.primaryPeach : colors.textPrimary,
           fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
         ),
       ),
     );
   }
 
-  Widget _buildQualityChip(BuildContext context, String label, bool isSelected) {
-    final isDark = context.isDarkMode;
+  Widget _buildQualityChip(
+    BuildContext context,
+    String label,
+    bool isSelected,
+  ) {
+    final colors = context.appColors;
 
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
           color: isSelected
-              ? const Color(0xFFF45C9F).withOpacity(0.2)
-              : (isDark ? const Color(0xFF2A2A35) : const Color(0xFFE0E0E0)),
+              ? colors.primaryPeach.withOpacity(0.15)
+              : colors.surfaceVariant,
           borderRadius: BorderRadius.circular(AppConstants.radiusSm),
           border: isSelected
-              ? Border.all(color: const Color(0xFFF45C9F), width: 1.5)
+              ? Border.all(color: colors.primaryPeach, width: 1.5)
               : null,
         ),
         child: Center(
           child: Text(
             label,
             style: context.textTheme.bodyMedium?.copyWith(
-              color: isSelected
-                  ? const Color(0xFFF45C9F)
-                  : (isDark ? Colors.white : Colors.black),
+              color: isSelected ? colors.primaryPeach : colors.textPrimary,
               fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
             ),
           ),
@@ -218,4 +217,3 @@ class _AdvancedSettingsSectionState extends State<AdvancedSettingsSection>
     );
   }
 }
-
