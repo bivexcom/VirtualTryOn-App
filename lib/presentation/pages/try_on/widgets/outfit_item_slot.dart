@@ -134,82 +134,64 @@ class _OutfitItemSlotState extends State<OutfitItemSlot> {
   }
 
   Widget _buildFilledState(BuildContext context, colors, bool isDark) {
-    return Padding(
-      padding: const EdgeInsets.all(12),
-      child: Row(
-        children: [
-          // Thumbnail
-          ClipRRect(
-            borderRadius: BorderRadius.circular(14),
+    return Stack(
+      children: [
+        // Full image display
+        Positioned.fill(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
             child: Container(
-              width: 48,
-              height: 48,
               decoration: BoxDecoration(
-                color: isDark
-                    ? Colors.white.withOpacity(0.1)
-                    : Colors.grey.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(isDark ? 0.4 : 0.12),
+                    blurRadius: 8,
+                    spreadRadius: 0,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
               child: Image.file(widget.image!, fit: BoxFit.cover),
             ),
           ),
-          const SizedBox(width: 12),
-          // Text info
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  widget.category ?? widget.slotLabel,
-                  style: context.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 15,
-                    letterSpacing: -0.2,
-                    color: isDark
-                        ? Colors.white.withOpacity(0.95)
-                        : colors.textPrimary,
+        ),
+
+        // Remove button - top right corner
+        if (widget.onRemove != null)
+          Positioned(
+            top: 4,
+            right: 4,
+            child: GestureDetector(
+              onTap: () {
+                Haptics.lightImpact();
+                widget.onRemove?.call();
+              },
+              child: Container(
+                width: 28,
+                height: 28,
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.5),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.close,
+                    size: 16,
+                    color: Colors.white.withOpacity(0.95),
                   ),
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  'Tap to manage',
-                  style: context.textTheme.bodySmall?.copyWith(
-                    fontSize: 12,
-                    color: isDark
-                        ? Colors.white.withOpacity(0.5)
-                        : colors.textSecondary.withOpacity(0.7),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // Remove button
-          GestureDetector(
-            onTap: () {
-              Haptics.lightImpact();
-              widget.onRemove?.call();
-            },
-            child: Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                color: isDark
-                    ? Colors.white.withOpacity(0.1)
-                    : Colors.black.withOpacity(0.05),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.close,
-                size: 18,
-                color: isDark
-                    ? Colors.white.withOpacity(0.7)
-                    : colors.textSecondary,
               ),
             ),
           ),
-        ],
-      ),
+      ],
     );
   }
 }

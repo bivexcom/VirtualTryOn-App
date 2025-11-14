@@ -369,18 +369,11 @@ class _TryOnScreenState extends State<TryOnScreen>
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
-          'Create Your Outfit',
-          style: context.textTheme.headlineSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-            letterSpacing: -0.5,
-          ),
-        ),
-        centerTitle: true,
+
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(64),
+          preferredSize: const Size.fromHeight(26),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
             child: Container(
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
@@ -461,7 +454,7 @@ class _TryOnScreenState extends State<TryOnScreen>
             left: 20,
             right: 20,
             top: 16,
-            bottom: 100,
+            bottom: 70,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -521,7 +514,7 @@ class _TryOnScreenState extends State<TryOnScreen>
               ),
 
               // Outfit Items Section - Grouped in a subtle container
-              const SizedBox(height: 32),
+              const SizedBox(height: 24),
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
@@ -615,7 +608,7 @@ class _TryOnScreenState extends State<TryOnScreen>
               ),
 
               // Session Settings Section - Grouped in a subtle container
-              const SizedBox(height: 32),
+              const SizedBox(height: 24),
               Container(
                 decoration: BoxDecoration(
                   color: isDark
